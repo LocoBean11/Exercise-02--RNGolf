@@ -49,16 +49,15 @@ class Play extends Phaser.Scene {
         })
 
         //Moving wall
-        const movingWall = this.physics.add.sprite(Phaser.Math.Between(0 + wallA.width / 2, width - wallA.width / 2), height / 4, 'wall')
-        movingWall.body.setImmovable(true)
-
-        // Set initial velocity
-        movingWall.body.velocity.x = 100 
+        const wall = this.physics.add.sprite(Phaser.Math.Between(0 + wallA.width / 2, width - wallA.width / 2), height / 4, 'wall')
+        wall.body.setImmovable(true)
+        this.physics.add.collider(this.ball, this.wall)
+        wall.body.velocity.x = 100 
 
         //Wall moves back and forth
         this.tweens.add({
-            targets: movingWall,
-            x: width - movingWall.width / 2, // Move to the right edge
+            targets: wall,
+            x: width - wall.width / 2, // Move to the right edge
             duration: 2000, 
             ease: 'Linear',
             yoyo: true, 
@@ -114,7 +113,7 @@ class Play extends Phaser.Scene {
 
         // Collision between new ball and walls
         this.physics.add.collider(this.ball, this.walls)
-        this.physics.add.collider(this.ball, this.movingWall)
+        this.physics.add.collider(this.ball, this.oneWay)
 
         this.physics.add.collider(this.ball, this.cup, (ball, cup) => {
             ball.destroy()
