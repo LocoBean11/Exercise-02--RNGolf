@@ -51,7 +51,9 @@ class Play extends Phaser.Scene {
         //Moving wall
         const movingWall = this.physics.add.sprite(Phaser.Math.Between(0 + wallA.width / 2, width - wallA.width / 2), height / 4, 'wall')
         movingWall.body.setImmovable(true)
-        movingWall.body.velocity.x = 100  
+
+        // Set initial velocity
+        movingWall.body.velocity.x = 100 
 
         //Wall moves back and forth
         this.tweens.add({
