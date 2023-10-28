@@ -30,15 +30,18 @@ class Play extends Phaser.Scene {
         this.ball.body.setDamping(true).setDrag(0.5)
 
         //add walls
-        let wallA = this.physics.add.sprite(0, height / 4, 'wall')
+        const wallA = this.physics.add.sprite(0, height / 4, 'wall')
         wallA.setX(Phaser.Math.Between(0 + wallA.width / 2, width - wallA.width /2 ))
         wallA.body.setImmovable(true)
 
-        let wallB = this.physics.add.sprite(0, height / 4, 'wall')
+        const wallB = this.physics.add.sprite(0, height / 4, 'wall')
         wallB.setX(Phaser.Math.Between(0 + wallB.width / 2, width - wallB.width /2 ))
         wallB.body.setImmovable(true)
 
         this.walls = this.add.group([wallA, wallB])
+
+         //Ball collides with walls
+         this.physics.add.collider(this.ball, this.walls)
 
         this.physics.add.collider(this.ball, this.cup, (ball, cup) => {
             ball.destroy()
@@ -46,16 +49,14 @@ class Play extends Phaser.Scene {
         })
 
         //Moving wall
-        const wall = this.physics.add.sprite(Phaser.Math.Between(0 + wallA.width / 2, width - wallA.width / 2), height / 4, 'wall')
-        wall.body.setImmovable(true)
-
-        // Set initial velocity
-        wall.body.velocity.x = 100 
+        const movingWall = this.physics.add.sprite(Phaser.Math.Between(0 + wallA.width / 2, width - wallA.width / 2), height / 4, 'wall')
+        movingWall.body.setImmovable(true)
+        movingWall.body.velocity.x = 100  
 
         //Wall moves back and forth
         this.tweens.add({
-            targets: wall,
-            x: width - wall.width / 2, // Move to the right edge
+            targets: movingWall,
+            x: width - movingWall.width / 2, // Move to the right edge
             duration: 2000, 
             ease: 'Linear',
             yoyo: true, 
@@ -108,6 +109,10 @@ class Play extends Phaser.Scene {
         this.ball.body.setCollideWorldBounds(true)
         this.ball.body.setBounce(0.5)
         this.ball.body.setDamping(true).setDrag(0.5)
+
+        // Collision between new ball and walls
+        this.physics.add.collider(this.ball, this.walls)
+        this.physics.add.collider(this.ball, this.movingWall)
 
         this.physics.add.collider(this.ball, this.cup, (ball, cup) => {
             ball.destroy()
