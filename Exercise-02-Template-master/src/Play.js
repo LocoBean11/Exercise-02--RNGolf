@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
         wallB.setX(Phaser.Math.Between(0 + wallB.width / 2, width - wallB.width /2 ))
         wallB.body.setImmovable(true)
 
-        this.walls = this.add.group([wallA, wallB])
+        this.walls = this.add.group([wallA, wallB]);
 
          //Ball collides with walls
          this.physics.add.collider(this.ball, this.walls)
